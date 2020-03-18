@@ -30,6 +30,9 @@ public class Aircraft {
     }
 
     public void move(groundMap map, int x, int y) throws IOException {
+        if (x == 0 && y == 0) {
+            scan(map, x, y);
+        }
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         for (int i = x; i < map.getMap().length - 1; i++) {
             for (int j = y; j < map.getMap()[i].length - 1; j++) {
@@ -61,7 +64,7 @@ public class Aircraft {
                         }
                         break;
                     case "right":
-                        if (y == map.getMap()[i].length) {
+                        if (y == map.getMap()[i].length - 1) {
                             System.out.println("You cant go there!");
                         } else {
                             y++;
@@ -74,33 +77,32 @@ public class Aircraft {
             }
         }
     }
-    
+
     public void scan(groundMap map, int x, int y) {
-        for (int i = x; i < map.getMap().length - 1;) {
-            for (int j = y; j < map.getMap()[i].length - 1;) {
-                if (map.getMap()[i][j] == map.getMap()[i][j + 1] && map.getMap()[i][j] == map.getMap()[i + 1][j] && map.getMap()[i][j] == map.getMap()[i + 1][j + 1]) {
-                    System.out.print("On coordinates " + i + " " + j + " ");
-                    switch (map.getMap()[i][j]) {
-                        case 0:
-                            System.out.println("object recognized as group of humans");
-                            break;
-                        case 1:
-                            System.out.println("object recognized as Building");
-                            break;
-                        case 2:
-                            System.out.println("object recognized as Mountain");
-                            break;
-                        case 3:
-                            System.out.println("object recognized as Forest");
-                            break;
-                        case 4:
-                            System.out.println("object recognized as Car");
-                            break;
-                        default:
-                            System.out.println("no objects found");
-                    }
-                }
+        int[][] myMap = map.getMap();
+        System.out.print("On coordinates " + x + " " + y + " ");
+        if (myMap[x][y] == myMap[x][y + 1] && myMap[x][y] == myMap[x + 1][y] && myMap[x][y] == myMap[x + 1][y + 1]) {
+            switch (map.getMap()[x][y]) {
+                case 0:
+                    System.out.println("object recognized as group of humans");
+                    break;
+                case 1:
+                    System.out.println("object recognized as Building");
+                    break;
+                case 2:
+                    System.out.println("object recognized as Mountain");
+                    break;
+                case 3:
+                    System.out.println("object recognized as Forest");
+                    break;
+                case 4:
+                    System.out.println("object recognized as Car");
+                    break;
+                default:
+                    System.out.println("Error!");
             }
+        } else {
+            System.out.println("no objects found");
         }
     }
 }
