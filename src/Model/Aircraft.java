@@ -1,6 +1,7 @@
 package Model;
 
-import Map.groundMap;
+import GroundTerritory.ListGroundTerritory;
+import Storage.ArrayListStorage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,81 +9,108 @@ import java.io.InputStreamReader;
 
 public class Aircraft {
     private int id;
-    private int X;
-    private int Y;
+    private int x;
+    private int y;
+    private int rangeOfViewX;
+    private int rangeOfViewY;
+
+    public Aircraft(int id, int x, int y, int rangeOfViewX, int rangeOfViewY) {
+        this.id = id;
+        this.x = x;
+        this.y = y;
+        this.rangeOfViewX = rangeOfViewX;
+        this.rangeOfViewY = rangeOfViewY;
+    }
 
     public int getId() {
         return id;
     }
 
     public int getX() {
-        return X;
+        return x;
     }
 
     public int getY() {
-        return Y;
+        return y;
     }
 
-    public Aircraft(int id, int X, int Y) {
-        this.id = id;
-        this.X = X;
-        this.Y = Y;
+    public int getRangeOfViewX() {
+        return rangeOfViewX;
     }
 
-    public void move(groundMap map, int x, int y) throws IOException {
-        if (x == 0 && y == 0) {
-            scan(map, x, y);
-        }
+    public int getRangeOfViewY() {
+        return rangeOfViewY;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void move(ListGroundTerritory map, ArrayListStorage storage, Aircraft aircraft) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        for (int i = x; i < map.getMap().length - 1; i++) {
-            for (int j = y; j < map.getMap()[i].length - 1; j++) {
-                System.out.println("UAV coordinates are: " + x + " " + y);
+        BufferedReader reader1 = new BufferedReader(new InputStreamReader(System.in));
+        scan(map, aircraft.getX(), aircraft.getY());
+        for (int i = aircraft.getX(); i < map.getTerritory().size() - 1;) {
+            for (int j = aircraft.getY(); j < map.getRowSize(i) - 1;) {
+                System.out.println("UAV coordinates are: " + aircraft.getX() + " " + aircraft.getY() + "." + " Value is: " + map.getTerritory().get(i).get(j));
                 String a = reader.readLine();
                 switch (a) {
                     case "up":
-                        if (x == 0) {
+                        if (i == 0) {
                             System.out.println("You cant go there!");
                         } else {
-                            x--;
-                            scan(map, x, y);
+                            i--;
+                            aircraft.setX(i);
+                            map.fillTerritory(map.getTerritory(), aircraft);
+                            scan(map, i, j);
                         }
                         break;
                     case "down":
-                        if (x == map.getMap().length - 1) {
-                            System.out.println("You cant go there!");
-                        } else {
-                            x++;
-                            scan(map, x, y);
-                        }
+                        i++;
+                        aircraft.setX(i);
+                        map.fillTerritory(map.getTerritory(), aircraft);
+                        scan(map, i, j);
                         break;
                     case "left":
-                        if (y == 0) {
+                        if (j == 0) {
                             System.out.println("You cant go there!");
                         } else {
-                            y--;
-                            scan(map, x, y);
+                            j--;
+                            aircraft.setY(j);
+                            map.fillTerritory(map.getTerritory(), aircraft);
+                            scan(map, i, j);
                         }
                         break;
                     case "right":
-                        if (y == map.getMap()[i].length - 1) {
-                            System.out.println("You cant go there!");
-                        } else {
-                            y++;
-                            scan(map, x, y);
-                        }
+                        j++;
+                        aircraft.setY(j);
+                        map.fillTerritory(map.getTerritory(), aircraft);
+                        scan(map, i, j);
+                        break;
+                    case "switch":
+                        System.out.print("Choose aircraft id: " );
+                        aircraft = storage.get(Integer.parseInt(reader1.readLine()));
+                        i = aircraft.getX();
+                        j = aircraft.getY();
                         break;
                     default:
                         System.out.println("Error");
+                        break;
                 }
             }
         }
+        reader.close();
+        reader1.close();
     }
 
-    public void scan(groundMap map, int x, int y) {
-        int[][] myMap = map.getMap();
+    private void scan(ListGroundTerritory map, int x, int y) {
         System.out.print("On coordinates " + x + " " + y + " ");
-        if (myMap[x][y] == myMap[x][y + 1] && myMap[x][y] == myMap[x + 1][y] && myMap[x][y] == myMap[x + 1][y + 1]) {
-            switch (map.getMap()[x][y]) {
+        if (compareValues(map, x, y) != -1) {
+            switch (map.getTerritory().get(x).get(y)) {
                 case 0:
                     System.out.println("object recognized as group of humans");
                     break;
@@ -102,7 +130,15 @@ public class Aircraft {
                     System.out.println("Error!");
             }
         } else {
-            System.out.println("no objects found");
+            System.out.println("no objects found!");
+        }
+    }
+
+    private int compareValues(ListGroundTerritory territory, int x, int y) {
+        if (territory.getRow(x).get(y).equals(territory.getRow(x).get(y + 1)) && territory.getRow(x).get(y).equals(territory.getRow(x + 1).get(y)) && territory.getRow(x).get(y).equals(territory.getRow(x + 1).get(y + 1))) {
+            return territory.getRow(x).get(y);
+        } else {
+            return -1;
         }
     }
 }
