@@ -1,4 +1,4 @@
-package GroundTerritory;
+package App.GroundTerritory;
 
 public class groundMap {
     private int rows;

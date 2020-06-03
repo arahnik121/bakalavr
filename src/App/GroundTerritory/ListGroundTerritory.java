@@ -1,12 +1,17 @@
-package GroundTerritory;
+package App.GroundTerritory;
 
-import Model.Aircraft;
+import App.Model.Aircraft;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListGroundTerritory {
     private List<ArrayList<Integer>> territory = new ArrayList<ArrayList<Integer>>();
+    private String obj;
+
+    public String getObj() {
+        return obj;
+    }
 
     public int getRowSize(int x) {
         return territory.get(x).size();
@@ -16,12 +21,11 @@ public class ListGroundTerritory {
         return territory.get(x);
     }
 
-
     public List<ArrayList<Integer>> getTerritory() {
         return territory;
     }
 
-    public void fillTerritory(List<ArrayList<Integer>> map, int width, int length) {
+    public void createTerritory(List<ArrayList<Integer>> map, int width, int length) {
         for (int i = 0; i < width; i++) {       //Создаем в List`e ArrayList`ы
             map.add(new ArrayList<Integer>());
             for (int j = 0; j < length; j++) {   //Создаем в ArrayList`e Integer`ы
