@@ -68,7 +68,7 @@ public abstract class AbstractStorage<SK> implements Storage {
     }
 
     @Override
-    public List<Aircraft> getAllSorted() {
+    public List<Aircraft> getAllAircraftsSorted() {
         LOG.info("getAllSorted");
         List<Aircraft> list = doCopyAll();
         Collections.sort(list);

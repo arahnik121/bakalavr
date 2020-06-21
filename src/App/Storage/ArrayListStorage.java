@@ -1,6 +1,7 @@
 package App.Storage;
 
 import App.Model.Aircraft;
+import App.Model.GroundObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,36 @@ public class ArrayListStorage extends AbstractStorage<Integer> {
     @Override
     public void clear() {
         list.clear();
+    }
+
+    @Override
+    public void save(Aircraft a, GroundObject o) {
+
+    }
+
+    @Override
+    public void saveAircraft(Aircraft a) {
+
+    }
+
+    @Override
+    public void update(GroundObject o) {
+
+    }
+
+    @Override
+    public void updateAircraft(Aircraft r) {
+
+    }
+
+    @Override
+    public GroundObject getGroundObjects(int x, int y) {
+        return null;
+    }
+
+    @Override
+    public List<GroundObject> getAllSorted() {
+        return null;
     }
 
     @Override

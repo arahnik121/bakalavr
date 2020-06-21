@@ -16,10 +16,10 @@ public class Data {
     public static final Aircraft R4;
 
     static {
-        R1 = new Aircraft(ID_1, 0, 0, 1, 1, " ");
-        R2 = new Aircraft(ID_2, 1, 1, 1, 1, " ");
-        R3 = new Aircraft(ID_3, 0, 0, 1, 1, " ");
-        R4 = new Aircraft(ID_4, 2, 2, 1, 1, " ");
+        R1 = new Aircraft(ID_1, 0, 0, 1, 1);
+        R2 = new Aircraft(ID_2, 1, 1, 1, 1);
+        R3 = new Aircraft(ID_3, 0, 0, 1, 1);
+        R4 = new Aircraft(ID_4, 2, 2, 1, 1);
     }
 
 }

@@ -1,7 +1,7 @@
 package App.Model;
 
 import App.GroundTerritory.ListGroundTerritory;
-import App.Storage.AbstractStorage;
+import App.Storage.Storage;
 import App.exceptions.NotExistStorageException;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,22 +18,21 @@ public class Aircraft implements Comparable<Aircraft>, Serializable {
     private int y;
     private int rangeOfViewX;
     private int rangeOfViewY;
-    private String objectInfo;
 
 
-
-    public Aircraft(int x, int y, int rangeOfViewX, int rangeOfViewY, String objectInfo) {
-        this(UUID.randomUUID().toString(), x, y, rangeOfViewX, rangeOfViewY, objectInfo);
+    public Aircraft(int x, int y, int rangeOfViewX, int rangeOfViewY) {
+        this(UUID.randomUUID().toString(), x, y, rangeOfViewX, rangeOfViewY);
     }
 
-    public Aircraft(String id, int x, int y, int rangeOfViewX, int rangeOfViewY, String objectInfo) {
+
+    public Aircraft(String id, int x, int y, int rangeOfViewX, int rangeOfViewY) {
         this.id = id;
         this.x = x;
         this.y = y;
         this.rangeOfViewX = rangeOfViewX;
         this.rangeOfViewY = rangeOfViewY;
-        this.objectInfo = objectInfo;
     }
+
 
     public String getId() {
         return id;
@@ -55,9 +54,6 @@ public class Aircraft implements Comparable<Aircraft>, Serializable {
         return rangeOfViewY;
     }
 
-    public String getObjectInfo() {
-        return objectInfo;
-    }
 
     public void setX(int x) {
         this.x = x;
@@ -67,13 +63,13 @@ public class Aircraft implements Comparable<Aircraft>, Serializable {
         this.y = y;
     }
 
-    public void move(ListGroundTerritory map, AbstractStorage storage, Aircraft aircraft) throws IOException {
+    public void move(ListGroundTerritory map, Storage storage, Aircraft aircraft) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         BufferedReader reader1 = new BufferedReader(new InputStreamReader(System.in));
         map.fillTerritory(map.getTerritory(), aircraft);
-        scan(map, aircraft.getX(), aircraft.getY());
-        for (int i = aircraft.getX(); i < map.getTerritory().size() - 1;) {
-            for (int j = aircraft.getY(); j < map.getRowSize(i) - 1;) {
+        scan(map, aircraft, storage);
+        for (int i = aircraft.getX(); i < map.getTerritory().size() - 1; ) {
+            for (int j = aircraft.getY(); j < map.getRowSize(i) - 1; ) {
                 System.out.println("UAV coordinates are: " + aircraft.getX() + " " + aircraft.getY() + "." + " Value is: " + map.getTerritory().get(i).get(j));
                 String a = reader.readLine();
                 switch (a) {
@@ -84,14 +80,14 @@ public class Aircraft implements Comparable<Aircraft>, Serializable {
                             i--;
                             aircraft.setX(i);
                             map.fillTerritory(map.getTerritory(), aircraft);
-                            scan(map, i, j);
+                            scan(map, aircraft, storage);
                         }
                         break;
                     case "down":
                         i++;
                         aircraft.setX(i);
                         map.fillTerritory(map.getTerritory(), aircraft);
-                        scan(map, i, j);
+                        scan(map, aircraft, storage);
                         break;
                     case "left":
                         if (j == 0) {
@@ -100,17 +96,17 @@ public class Aircraft implements Comparable<Aircraft>, Serializable {
                             j--;
                             aircraft.setY(j);
                             map.fillTerritory(map.getTerritory(), aircraft);
-                            scan(map, i, j);
+                            scan(map, aircraft, storage);
                         }
                         break;
                     case "right":
                         j++;
                         aircraft.setY(j);
                         map.fillTerritory(map.getTerritory(), aircraft);
-                        scan(map, i, j);
+                        scan(map, aircraft, storage);
                         break;
                     case "switch":
-                        System.out.print("Choose aircraft id: " );
+                        System.out.print("Choose aircraft id: ");
                         String line = reader1.readLine();
                         try {
                             aircraft = storage.get(line);
@@ -131,25 +127,128 @@ public class Aircraft implements Comparable<Aircraft>, Serializable {
         reader.close();
     }
 
-    private String scan(ListGroundTerritory map, int x, int y) {
-        System.out.print("On coordinates " + x + " " + y + " ");
-        if (compareValues(map, x, y) != -1) {
-            switch (map.getTerritory().get(x).get(y)) {
+    public void moveUp(ListGroundTerritory map, Storage storage, Aircraft aircraft) {
+//        map.fillTerritory(map.getTerritory(), aircraft);
+//        scan(map, aircraft, storage);
+        int i = aircraft.getX();
+        int j = aircraft.getY();
+        System.out.println("UAV coordinates are: " + aircraft.getX() + " " + aircraft.getY() + "." + " Value is: " + map.getTerritory().get(i).get(j));
+        if (i == 0) {
+            System.out.println("You cant go there!");
+        } else {
+            i--;
+            aircraft.setX(i);
+            map.fillTerritory(map.getTerritory(), aircraft);
+            scan(map, aircraft, storage);
+        }
+    }
+
+
+    public void moveDown(ListGroundTerritory map, Storage storage, Aircraft aircraft) {
+//        map.fillTerritory(map.getTerritory(), aircraft);
+//        scan(map, aircraft, storage);
+        int i = aircraft.getX();
+        int j = aircraft.getY();
+        System.out.println("UAV coordinates are: " + aircraft.getX() + " " + aircraft.getY() + "." + " Value is: " + map.getTerritory().get(i).get(j));
+        i++;
+        aircraft.setX(i);
+        map.fillTerritory(map.getTerritory(), aircraft);
+        scan(map, aircraft, storage);
+    }
+
+    public void moveLeft(ListGroundTerritory map, Storage storage, Aircraft aircraft) {
+//        map.fillTerritory(map.getTerritory(), aircraft);
+//        scan(map, aircraft, storage);
+        int i = aircraft.getX();
+        int j = aircraft.getY();
+        System.out.println("UAV coordinates are: " + aircraft.getX() + " " + aircraft.getY() + "." + " Value is: " + map.getTerritory().get(i).get(j));
+        if (j == 0) {
+            System.out.println("You cant go there!");
+        } else {
+            j--;
+            aircraft.setY(j);
+            map.fillTerritory(map.getTerritory(), aircraft);
+            scan(map, aircraft, storage);
+        }
+    }
+
+    public void moveRight(ListGroundTerritory map, Storage storage, Aircraft aircraft) {
+//        map.fillTerritory(map.getTerritory(), aircraft);
+//        scan(map, aircraft, storage);
+        int i = aircraft.getX();
+        int j = aircraft.getY();
+        System.out.println("UAV coordinates are: " + aircraft.getX() + " " + aircraft.getY() + "." + " Value is: " + map.getTerritory().get(i).get(j));
+        j++;
+        aircraft.setY(j);
+        map.fillTerritory(map.getTerritory(), aircraft);
+        scan(map, aircraft, storage);
+    }
+
+    public void Switch(ListGroundTerritory map, Storage storage, Aircraft aircraft, String id) {
+        map.fillTerritory(map.getTerritory(), aircraft);
+        scan(map, aircraft, storage);
+        for (int i = aircraft.getX(); i < map.getTerritory().size() - 1; ) {
+            for (int j = aircraft.getY(); j < map.getRowSize(i) - 1; ) {
+                System.out.println("UAV coordinates are: " + aircraft.getX() + " " + aircraft.getY() + "." + " Value is: " + map.getTerritory().get(i).get(j));
+                try {
+                    aircraft = storage.get(id);
+                    i = aircraft.getX();
+                    j = aircraft.getY();
+                } catch (NotExistStorageException e) {
+                    System.out.println("No such aircraft!");
+                }
+            }
+        }
+    }
+
+
+    private String scan(ListGroundTerritory map, Aircraft aircraft, Storage storage) {
+        GroundObject o = new GroundObject(aircraft.getX(), aircraft.getY(), " ");
+        System.out.print("On coordinates " + aircraft.getX() + " " + aircraft.getY() + " ");
+        if (compareValues(map, aircraft.getX(), aircraft.getY()) != -1) {
+            switch (map.getTerritory().get(aircraft.getX()).get(aircraft.getY())) {
                 case 0:
-                    return objectInfo = ("object recognized as group of humans");
+                    o.setClassification("Empty");
+                    storage.updateAircraft(aircraft);
+                    storage.save(aircraft, o);
+                    return o.getClassification();
                 case 1:
-                    return objectInfo = ("object recognized as Building");
+                    o.setClassification("Building");
+                    storage.updateAircraft(aircraft);
+                    storage.save(aircraft, o);
+                    return o.getClassification();
                 case 2:
-                    return objectInfo = ("object recognized as Mountain");
+                    o.setClassification("Mountain");
+                    storage.updateAircraft(aircraft);
+                    storage.save(aircraft, o);
+                    return o.getClassification();
                 case 3:
-                    return objectInfo = ("object recognized as Forest");
+                    o.setClassification("Forest");
+                    storage.updateAircraft(aircraft);
+                    storage.save(aircraft, o);
+                    return o.getClassification();
                 case 4:
-                    return objectInfo = ("object recognized as Car");
+                    o.setClassification("Car");
+                    storage.updateAircraft(aircraft);
+                    storage.save(aircraft, o);
+                    return o.getClassification();
                 default:
-                    return objectInfo = ("Error!");
+                    o.setClassification("Error!");
+                    storage.updateAircraft(aircraft);
+                    storage.save(aircraft, o);
+                    return o.getClassification();
             }
         } else {
-            return objectInfo = ("no objects found!");
+            o.setClassification("Nothing found");
+            storage.updateAircraft(aircraft);
+            if (o.getX() == storage.getGroundObjects(o.getX(), o.getY()).getX()) {
+                if (o.getX() == storage.getGroundObjects(o.getX(), o.getY()).getY()) {
+                    storage.update(o);
+                }
+            } else {
+                storage.save(aircraft, o);
+            }
+            return o.getClassification();
         }
     }
 

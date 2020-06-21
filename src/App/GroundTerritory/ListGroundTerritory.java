@@ -2,15 +2,29 @@ package App.GroundTerritory;
 
 import App.Model.Aircraft;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListGroundTerritory {
-    private List<ArrayList<Integer>> territory = new ArrayList<ArrayList<Integer>>();
-    private String obj;
+    public ListGroundTerritory(List<ArrayList<Integer>> map, int width, int length ) {
+        for (int i = 0; i < width; i++) {       //Создаем в List`e ArrayList`ы
+            map.add(new ArrayList<Integer>());
+            for (int j = 0; j < length; j++) {   //Создаем в ArrayList`e Integer`ы
+                int randomNumber = (int) (Math.random() * 5 + 1);
+                map.get(i).add(randomNumber);    //Каждый Integer генерируется рандомно от 1 до 5
+            }
+        }
+        this.territory = map;
+    }
 
-    public String getObj() {
-        return obj;
+    private List<ArrayList<Integer>> territory = new ArrayList<ArrayList<Integer>>();
+
+    public int getSize() {
+        return territory.size();
     }
 
     public int getRowSize(int x) {
@@ -25,17 +39,18 @@ public class ListGroundTerritory {
         return territory;
     }
 
-    public void createTerritory(List<ArrayList<Integer>> map, int width, int length) {
-        for (int i = 0; i < width; i++) {       //Создаем в List`e ArrayList`ы
-            map.add(new ArrayList<Integer>());
-            for (int j = 0; j < length; j++) {   //Создаем в ArrayList`e Integer`ы
-                int randomNumber = (int) (Math.random() * 5 + 1);
-                map.get(i).add(randomNumber);    //Каждый Integer генерируется рандомно от 1 до 5
-                System.out.print(map.get(i).get(j) + " ");
-            }
-            System.out.println();
-        }
-    }
+//    public List<ArrayList<Integer>> createTerritory(List<ArrayList<Integer>> map, int width, int length) {
+//        for (int i = 0; i < width; i++) {       //Создаем в List`e ArrayList`ы
+//            map.add(new ArrayList<Integer>());
+//            for (int j = 0; j < length; j++) {   //Создаем в ArrayList`e Integer`ы
+//                int randomNumber = (int) (Math.random() * 5 + 1);
+//                map.get(i).add(randomNumber);    //Каждый Integer генерируется рандомно от 1 до 5
+//                System.out.print(map.get(i).get(j) + " ");
+//            }
+//            System.out.println();
+//        }
+//        return map;
+//    }
 
     public void fillTerritory(List<ArrayList<Integer>> map, Aircraft aircraft) {
         int indexOfNewObjectY = aircraft.getY() + aircraft.getRangeOfViewY();
@@ -57,15 +72,35 @@ public class ListGroundTerritory {
                 }
             }
         }
-        showTerritory(map);
+        showMatrix(map);
+//        showImage(map);
     }
 
 
-    private void showTerritory(List<ArrayList<Integer>> map) {
+    private void showMatrix(List<ArrayList<Integer>> map) {
         for (ArrayList<Integer> integers : map) {
             for (Integer integer : integers) {
                 if (integer == 0) {
                     System.out.print("  ");
+                } else {
+                    System.out.print(integer + " ");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    private void showImage(List<ArrayList<Integer>> map) {
+        for (ArrayList<Integer> integers : map) {
+            for (Integer integer : integers) {
+                if (integer == 0) {
+                    BufferedImage image = null;
+                    try {
+                        image = ImageIO.read(new File("image.jpg"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.print(image);
                 } else {
                     System.out.print(integer + " ");
                 }

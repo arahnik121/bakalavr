@@ -1,0 +1,19 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="UAVs">
+    <output-path>$PROJECT_DIR$/out/artifacts/UAVs</output-path>
+    <root id="archive" name="UAVs.war">
+      <element id="artifact" artifact-name="UAVs:Web exploded" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="lib">
+          <element id="file-copy" path="$MAVEN_REPOSITORY$/org/jetbrains/annotations/17.0.0/annotations-17.0.0.jar" />
+          <element id="library" level="module" name="JUnit5.4" module-name="Bakalavr" />
+          <element id="file-copy" path="$PROJECT_DIR$/postgresql-42.2.1.jar" />
+          <element id="library" level="project" name="com.liferay:javax.xml.bind:2.3.0.LIFERAY-PATCHED-2" />
+          <element id="file-copy" path="$PROJECT_DIR$/gson-2.8.6.jar" />
+          <element id="library" level="project" name="Java EE 6-Java EE 6" />
+          <element id="file-copy" path="$PROJECT_DIR$/jstl-1.2.jar" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="com.liferay:javax.xml.bind:2.3.0.LIFERAY-PATCHED-2" type="repository">
+    <properties maven-id="com.liferay:javax.xml.bind:2.3.0.LIFERAY-PATCHED-2" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/liferay/javax.xml.bind/2.3.0.LIFERAY-PATCHED-2/javax.xml.bind-2.3.0.LIFERAY-PATCHED-2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
