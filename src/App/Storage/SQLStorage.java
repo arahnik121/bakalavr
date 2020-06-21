@@ -162,7 +162,7 @@ public class SQLStorage implements Storage {
     }
 
     public List<GroundObject> getAllSorted() {
-        return sqlHelper.execute("SELECT * FROM groundobject o ORDER BY (x, y)", new SQLExecutor<List<GroundObject>>() {
+        return sqlHelper.execute("SELECT * FROM groundobject o ORDER BY x ", new SQLExecutor<List<GroundObject>>() {
             @Override
             public List<GroundObject> wrap(PreparedStatement ps) throws SQLException {
                 ResultSet rs = ps.executeQuery();

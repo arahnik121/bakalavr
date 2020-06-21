@@ -17,6 +17,7 @@
           <element id="file-copy" path="$PROJECT_DIR$/jstl-1.2.jar" />
         </element>
       </element>
+      <element id="dir-copy" path="$PROJECT_DIR$/web/img" />
     </root>
   </artifact>
 </component>

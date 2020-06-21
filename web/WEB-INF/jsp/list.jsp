@@ -27,11 +27,29 @@
 
         #divMatrix {
             position: absolute;
-            top: 100px;
-            width: 300px;
-            left: 50%;
-            margin-left: -150px;
+            top: 50px;
+            width: 100%;
+            left: 800px;
+            padding-right: -10px;
+            word-spacing: -5px;
         }
+
+        h1 {
+            word-spacing: -10px;
+            margin-bottom: -26px;
+        }
+
+        p {
+            letter-spacing: 0em;
+            word-spacing: 0px;
+        }
+
+        br {
+            margin-bottom: -30px;
+            letter-spacing: 1em;
+            word-spacing: 6px;
+        }
+
         a.button24 {
             display: inline-block;
             color: #000000;
@@ -45,8 +63,15 @@
             background: linear-gradient(#80c4f8, #94bdeb) #94bdeb;
             transition: 0.2s;
         }
-        a.button24:hover { background: linear-gradient(#5872eb, #80c4f8) #5872eb; }
-        a.button24:active { background: linear-gradient(#80c4f8, #94bdeb) #5872eb; }
+
+        a.button24:hover {
+            background: linear-gradient(#5872eb, #80c4f8) #5872eb;
+        }
+
+        a.button24:active {
+            background: linear-gradient(#80c4f8, #94bdeb) #5872eb;
+        }
+
         table {
             font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif, serif;
             font-size: 14px;
@@ -54,69 +79,87 @@
             border-spacing: 0;
             text-align: center;
         }
+
         th {
             background: #5872eb;
             color: #000000;
             padding: 10px 20px;
         }
+
         th, td {
             border-style: solid;
             border-width: 0 1px 1px 0;
             border-color: white;
         }
+
         th:first-child, td:first-child {
             text-align: left;
         }
+
         th:first-child {
             border-top-left-radius: 10px;
         }
+
         th:last-child {
             border-top-right-radius: 10px;
             border-right: none;
         }
+
         td {
             padding: 10px 20px;
             background: #80c4f8;
         }
+
         tr:last-child td:first-child {
             border-radius: 0 0 0 10px;
         }
+
         tr:last-child td:last-child {
             border-radius: 0 0 10px 0;
         }
+
         tr td:last-child {
             border-right: none;
         }
     </style>
 </head>
 <div id="divButtons">
-<jsp:useBean id="aircrafts" scope="request" type="java.util.List"/>
-<c:forEach items="${aircrafts}" var="aircraft">
-    <jsp:useBean id="aircraft" type="App.Model.Aircraft"/>
-    <a href="UAV?id=${aircraft.id}&action=up" class="button24">MoveUp</a>
-    <a href="UAV?id=${aircraft.id}&action=down" class="button24">MoveDown</a>
-    <a href="UAV?id=${aircraft.id}&action=left" class="button24">MoveLeft</a>
-    <a href="UAV?id=${aircraft.id}&action=right" class="button24">MoveRight</a>
-    <a href="UAV?id=${aircraft.id}&action=delete" class="button24">Delete</a>
-</c:forEach>
+    <jsp:useBean id="aircrafts" scope="request" type="java.util.List"/>
+    <c:forEach items="${aircrafts}" var="aircraft">
+        <jsp:useBean id="aircraft" type="App.Model.Aircraft"/>
+        <a href="UAV?id=${aircraft.id}&action=up" class="button24">MoveUp</a>
+        <a href="UAV?id=${aircraft.id}&action=down" class="button24">MoveDown</a>
+        <a href="UAV?id=${aircraft.id}&action=left" class="button24">MoveLeft</a>
+        <a href="UAV?id=${aircraft.id}&action=right" class="button24">MoveRight</a>
+        <a href="UAV?id=${aircraft.id}&action=delete" class="button24">Delete</a>
+    </c:forEach>
 </div>
 <p></p>
 <p></p>
 <div id="divMatrix">
-<jsp:useBean id="territory_matrix" scope="request" type="App.GroundTerritory.ListGroundTerritory"/>
-<%
-    for (int i = 0; i < territory_matrix.getSize(); i++) {
-        for (int j = 0; j < territory_matrix.getRow(i).size(); j++) {
-%>
-<%if (territory_matrix.getRow(i).get(j) == 0)%>
-    <img src="">
-<%
-    }
-%>
-<p></p>
-<%
-    }
-%>
+    <jsp:useBean id="territory_matrix" scope="request" type="App.GroundTerritory.ListGroundTerritory"/>
+    <%
+        for (int i = 0; i < territory_matrix.getSize(); i++) {
+            for (int j = 0; j < territory_matrix.getRow(i).size(); j++) {
+                if (territory_matrix.getRow(i).get(j) != 0) {
+    %>
+    <img src="img/grass.jpg">
+    <%
+    } else { %>
+    <img src="img/blind.jpg">
+    <%
+        }
+//        if (i == aircraft.getX() && j == aircraft.getY()) {
+    %>
+<%--    <img src="img/current.jpg">--%>
+    <%
+//            }
+        }
+    %>
+    <h1></h1>
+    <%
+        }
+    %>
 </div>
 <p></p>
 <p></p>

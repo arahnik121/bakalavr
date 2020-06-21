@@ -14,18 +14,12 @@ public class SQLHelper {
     }
 
     public void execute(String sql) {
-        execute(sql, new SQLExecutor<Boolean>() {
-            @Override
-            public Boolean wrap(PreparedStatement ps) throws SQLException {
-                return ps.execute();
-            }
-        });
+        execute(sql, PreparedStatement::execute);
     }
 
     public <T> T execute(String sql, SQLExecutor<T> executor) {
-        try {
-            Connection conn = connectionFactory.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
+        try (Connection conn = connectionFactory.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             return executor.wrap(ps);
         } catch (SQLException e) {
             throw ExceptionUtil.convertException(e);
