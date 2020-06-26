@@ -27,6 +27,7 @@ public class UAVServlet extends HttpServlet {
         String action = request.getParameter("action");
         if (action == null) {
             request.setAttribute("aircrafts", storage.getAllAircraftsSorted());
+            request.setAttribute("current_aircrafts", storage.getAllAircraftsSorted());
             request.setAttribute("territory_matrix", territory);
             request.setAttribute("ground_objects", storage.getAllSorted());
             request.getRequestDispatcher("WEB-INF/jsp/list.jsp").forward(request, response);
@@ -50,6 +51,8 @@ public class UAVServlet extends HttpServlet {
             case "right":
                 a.moveRight(territory, storage, a);
                 break;
+            default:
+                throw new IllegalStateException("Action " + action + " is illegal");
         }
         if (!action.equals("delete")) {
             request.setAttribute("aircrafts", storage.getAllSorted());

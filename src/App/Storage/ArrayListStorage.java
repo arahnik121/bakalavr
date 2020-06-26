@@ -9,6 +9,8 @@ import java.util.List;
 public class ArrayListStorage extends AbstractStorage<Integer> {
     private List<Aircraft> list = new ArrayList<>();
 
+
+    //TODO: Доделать реализацию для всех методов из интерфеса App.Storage.Storage
     @Override
     public void clear() {
         list.clear();

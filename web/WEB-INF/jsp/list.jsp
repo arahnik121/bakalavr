@@ -17,11 +17,11 @@
 
         #divTable {
             position: absolute;
-            top: 50px;
+            top: 130px;
         }
 
         #divButtons {
-            left: 50px;
+            left: 10px;
             position: absolute;
         }
 
@@ -132,6 +132,8 @@
         <a href="UAV?id=${aircraft.id}&action=left" class="button24">MoveLeft</a>
         <a href="UAV?id=${aircraft.id}&action=right" class="button24">MoveRight</a>
         <a href="UAV?id=${aircraft.id}&action=delete" class="button24">Delete</a>
+        <var><b>UAV ${aircraft.id}</b></var>
+        <p></p>
     </c:forEach>
 </div>
 <p></p>
@@ -141,19 +143,46 @@
     <%
         for (int i = 0; i < territory_matrix.getSize(); i++) {
             for (int j = 0; j < territory_matrix.getRow(i).size(); j++) {
-                if (territory_matrix.getRow(i).get(j) != 0) {
+                if (territory_matrix.getRow(i).get(j) == 1) {
     %>
-    <img src="img/grass.jpg">
+    <img src="img/rock1.jpg">
     <%
-    } else { %>
+    } else if (territory_matrix.getRow(i).get(j) == 2) {
+    %>
+    <img src="img/rock2.jpg">
+    <%
+    } else if (territory_matrix.getRow(i).get(j) == 3) {
+    %>
+    <img src="img/rock3.jpg">
+    <%
+    } else if (territory_matrix.getRow(i).get(j) == 4) {
+    %>
+    <img src="img/rock4.jpg">
+    <%
+    } else if (territory_matrix.getRow(i).get(j) == 5) {
+    %>
+    <img src="img/rock5.jpg">
+    <%
+    } else if (territory_matrix.getRow(i).get(j) == 0) {
+    %>
     <img src="img/blind.jpg">
     <%
         }
-//        if (i == aircraft.getX() && j == aircraft.getY()) {
     %>
-<%--    <img src="img/current.jpg">--%>
+
+    <jsp:useBean id="current_aircrafts" scope="request" type="java.util.List"/>
+    <c:forEach items="${current_aircrafts}" var="current_aircraft">
+        <jsp:useBean id="current_aircraft" type="App.Model.Aircraft"/>
+        <%
+            if (i == current_aircraft.getX() && j == current_aircraft.getY()) {
+
+        %>
+        <img style="position: absolute; margin-left: -52px;" src="img/UAV.png">
+        <%
+            }
+        %>
+    </c:forEach>
     <%
-//            }
         }
     %>
     <h1></h1>
@@ -161,6 +190,7 @@
         }
     %>
 </div>
+
 <p></p>
 <p></p>
 <div id="divTable">

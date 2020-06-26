@@ -63,6 +63,8 @@ public class Aircraft implements Comparable<Aircraft>, Serializable {
         this.y = y;
     }
 
+
+    //Потоковая реализация только для хранилища на основе ArrayList`a
     public void move(ListGroundTerritory map, Storage storage, Aircraft aircraft) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         BufferedReader reader1 = new BufferedReader(new InputStreamReader(System.in));
@@ -127,9 +129,9 @@ public class Aircraft implements Comparable<Aircraft>, Serializable {
         reader.close();
     }
 
+
+    //TODO: Убрать повторение кода из методов move
     public void moveUp(ListGroundTerritory map, Storage storage, Aircraft aircraft) {
-//        map.fillTerritory(map.getTerritory(), aircraft);
-//        scan(map, aircraft, storage);
         int i = aircraft.getX();
         int j = aircraft.getY();
         System.out.println("UAV coordinates are: " + aircraft.getX() + " " + aircraft.getY() + "." + " Value is: " + map.getTerritory().get(i).get(j));
@@ -145,8 +147,6 @@ public class Aircraft implements Comparable<Aircraft>, Serializable {
 
 
     public void moveDown(ListGroundTerritory map, Storage storage, Aircraft aircraft) {
-//        map.fillTerritory(map.getTerritory(), aircraft);
-//        scan(map, aircraft, storage);
         int i = aircraft.getX();
         int j = aircraft.getY();
         System.out.println("UAV coordinates are: " + aircraft.getX() + " " + aircraft.getY() + "." + " Value is: " + map.getTerritory().get(i).get(j));
@@ -157,8 +157,6 @@ public class Aircraft implements Comparable<Aircraft>, Serializable {
     }
 
     public void moveLeft(ListGroundTerritory map, Storage storage, Aircraft aircraft) {
-//        map.fillTerritory(map.getTerritory(), aircraft);
-//        scan(map, aircraft, storage);
         int i = aircraft.getX();
         int j = aircraft.getY();
         System.out.println("UAV coordinates are: " + aircraft.getX() + " " + aircraft.getY() + "." + " Value is: " + map.getTerritory().get(i).get(j));
@@ -173,8 +171,6 @@ public class Aircraft implements Comparable<Aircraft>, Serializable {
     }
 
     public void moveRight(ListGroundTerritory map, Storage storage, Aircraft aircraft) {
-//        map.fillTerritory(map.getTerritory(), aircraft);
-//        scan(map, aircraft, storage);
         int i = aircraft.getX();
         int j = aircraft.getY();
         System.out.println("UAV coordinates are: " + aircraft.getX() + " " + aircraft.getY() + "." + " Value is: " + map.getTerritory().get(i).get(j));
@@ -184,22 +180,20 @@ public class Aircraft implements Comparable<Aircraft>, Serializable {
         scan(map, aircraft, storage);
     }
 
-    public void Switch(ListGroundTerritory map, Storage storage, Aircraft aircraft, String id) {
-        map.fillTerritory(map.getTerritory(), aircraft);
-        scan(map, aircraft, storage);
-        for (int i = aircraft.getX(); i < map.getTerritory().size() - 1; ) {
-            for (int j = aircraft.getY(); j < map.getRowSize(i) - 1; ) {
-                System.out.println("UAV coordinates are: " + aircraft.getX() + " " + aircraft.getY() + "." + " Value is: " + map.getTerritory().get(i).get(j));
-                try {
-                    aircraft = storage.get(id);
-                    i = aircraft.getX();
-                    j = aircraft.getY();
-                } catch (NotExistStorageException e) {
-                    System.out.println("No such aircraft!");
-                }
-            }
-        }
-    }
+
+
+
+//Метод реализован только для хранилища, реализуемого на базе ArrayList`a
+//    public void Switch(ListGroundTerritory map, Storage storage, Aircraft aircraft, String id) {
+//        int i = aircraft.getX();
+//        int j = aircraft.getY();
+//        System.out.println("UAV coordinates are: " + aircraft.getX() + " " + aircraft.getY() + "." + " Value is: " + map.getTerritory().get(i).get(j));
+//        try {
+//            aircraft = storage.get(id);
+//        } catch (NotExistStorageException e) {
+//            System.out.println("No such aircraft!");
+//        }
+//    }
 
 
     private String scan(ListGroundTerritory map, Aircraft aircraft, Storage storage) {

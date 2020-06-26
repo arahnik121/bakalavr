@@ -14,7 +14,12 @@ public class SQLHelper {
     }
 
     public void execute(String sql) {
-        execute(sql, PreparedStatement::execute);
+        execute(sql, new SQLExecutor<Boolean>() {
+            @Override
+            public Boolean wrap(PreparedStatement preparedStatement) throws SQLException {
+                return preparedStatement.execute();
+            }
+        });
     }
 
     public <T> T execute(String sql, SQLExecutor<T> executor) {
